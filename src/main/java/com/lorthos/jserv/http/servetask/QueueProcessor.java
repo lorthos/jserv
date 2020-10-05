@@ -30,9 +30,14 @@ class QueueProcessor implements Runnable {
             process(attachment, serveTask);
             connectionManager.markConnectionForWrite(attachment);
         } catch (IOException e) {
-            e.printStackTrace();
             Log.WARN("QueueProcessor:IOException %s", e.getMessage());
-            throw new RuntimeException("QueueProcessor:IOException", e);
+            try {
+                attachment.getChannel().close();
+            } catch (IOException channelCloseException) {
+                channelCloseException.printStackTrace();
+                Log.WARN("QueueProcessor:IOException when closing channel %s", e.getMessage());
+                throw new RuntimeException("QueueProcessor:IOException when closing channel ", e);
+            }
         }
     }
 

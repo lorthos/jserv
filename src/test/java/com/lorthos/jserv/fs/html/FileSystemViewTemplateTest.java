@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class FileSystemViewTemplateTest {
 
-    FileSystemViewTemplate template = new FileSystemViewTemplate("test.html");
+    FileSystemViewTemplate template = new FileSystemViewTemplate("test-html-template.txt");
 
     @Test
     public void renderSimpleHTML() {

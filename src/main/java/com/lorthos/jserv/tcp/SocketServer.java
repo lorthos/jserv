@@ -87,7 +87,7 @@ public class SocketServer implements Runnable {
 
             }
 
-            Log.INFO("Open Connections: %d", connectionRegistry.getOpenConnectionCount());
+            Log.DEBUG("Open Connections: %d", connectionRegistry.getOpenConnectionCount());
         }
     }
 

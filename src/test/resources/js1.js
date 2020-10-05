@@ -1,1 +1,1 @@
-document.write("This text comes from an myscript.js.");
+document.write("This text comes from javascript.");

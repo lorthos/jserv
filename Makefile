@@ -4,7 +4,7 @@ package:
 fast-package:
 	mvn clean package -DskipTests
 
-docker:
+docker: fast-package
 	docker build -t jserv .
 
 run-docker: fast-package docker
@@ -41,6 +41,6 @@ loadtest2:
 loadtest3:
 	~/appz/bombardier-darwin-amd64 -c 20 -n 200000 http://localhost:8080/dir1/image1.png/
 
-test-all: test1 test2 loadtest1 loadtest2
+test-all: test1 test2 loadtest1 loadtest2 loadtest3
 
 
