@@ -12,23 +12,8 @@ import java.util.Optional;
 public class ResponseFactory {
 
     private final Config config;
-
     public ResponseFactory(Config config) {
         this.config = config;
-    }
-
-    private static ResponseFactory instance;
-
-    public static ResponseFactory getInstance() {
-        if (instance == null) {
-            Log.WARN("Initialize ResponseFactory properly");
-            throw new RuntimeException("Initialize ResponseFactory properly");
-        }
-        return instance;
-    }
-
-    public static void setInstance(ResponseFactory instance) {
-        ResponseFactory.instance = instance;
     }
 
     public Response build(Request request,
@@ -89,6 +74,20 @@ public class ResponseFactory {
 
     public Response internalError(Request request) {
         return ResponseFactory.getInstance().buildErrorResponse(request, 500, "Internal Server Error");
+    }
+
+    private static ResponseFactory instance;
+
+    public static ResponseFactory getInstance() {
+        if (instance == null) {
+            Log.WARN("Initialize ResponseFactory properly");
+            throw new RuntimeException("Initialize ResponseFactory properly");
+        }
+        return instance;
+    }
+
+    public static void setInstance(ResponseFactory instance) {
+        ResponseFactory.instance = instance;
     }
 
 }
