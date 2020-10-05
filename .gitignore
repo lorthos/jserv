@@ -1,0 +1,6 @@
+*.iml
+*.jpr
+target/
+.idea/
+**/*.zip
+**/*.mp4
