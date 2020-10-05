@@ -8,12 +8,11 @@ public enum ClientVersion {
     HTTP_1_0("http/1.0"),
     HTTP_1_1("http/1.1");
 
-    private static final Map<String, ClientVersion> map;
+    private static final Map<String, ClientVersion> map = new HashMap<>();
 
     static {
-        map = new HashMap<>();
-        for (ClientVersion foo : EnumSet.allOf(ClientVersion.class)) {
-            map.put(foo.specName, foo);
+        for (ClientVersion clientVersion : EnumSet.allOf(ClientVersion.class)) {
+            map.put(clientVersion.specName, clientVersion);
         }
     }
 

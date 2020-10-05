@@ -1,6 +1,6 @@
 package com.lorthos.jserv;
 
-import com.lorthos.jserv.fs.FileSystemPackageFactory;
+import com.lorthos.jserv.fs.servetask.ContentServeTaskFactory;
 import com.lorthos.jserv.http.ResponseFactory;
 import com.lorthos.jserv.http.servetask.*;
 import com.lorthos.jserv.tcp.*;
@@ -45,8 +45,8 @@ public class App {
 
     private void prepareDependencies() throws IOException {
         //fs package
-        FileSystemPackageFactory.setInstance(
-                new FileSystemPackageFactory(config));
+        ContentServeTaskFactory.setInstance(
+                new ContentServeTaskFactory(config));
 
         //http package
         ResponseFactory.setInstance(new ResponseFactory(config));

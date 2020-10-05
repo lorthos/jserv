@@ -30,7 +30,7 @@ public class PathElement {
         File file = serverFSPath.toFile();
         Type type = file.isFile() ? Type.FILE : Type.DIRECTORY;
         String mimeType = ContentTypeResolver.resolve(file.getName());
-        Log.DEBUG("resolved mimetype: %s for file %s", mimeType, file, file.getName());
+        Log.DEBUG("resolved mimetype: %s for file %s", mimeType, file.getName());
         return new PathElement(relativePath, type, mimeType, serverFSPath, file.getName());
     }
 

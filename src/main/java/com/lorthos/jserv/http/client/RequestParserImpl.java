@@ -2,10 +2,7 @@ package com.lorthos.jserv.http.client;
 
 import com.lorthos.jserv.util.Log;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +23,52 @@ public class RequestParserImpl implements RequestParser {
             return Optional.empty();
         }
 
+
+        //parse first line
         String[] cmd = methodLine.split("\\s");
         if (cmd.length != 3) {
             Log.WARN("Bad methodLine: %s", methodLine);
             return Optional.empty();
         }
+
+        //method
         final String method = cmd[0];
+        Method clientMethod;
+        try {
+            clientMethod = Method.valueOf(method);
+        } catch (IllegalArgumentException e) {
+            Log.WARN("Cannot parse HTTP method: %s", e.getMessage());
+            return Optional.empty();
+        }
+
+        //uri
         int indexOf = cmd[1].indexOf('?');
         final String uri = indexOf > 0 ? cmd[1].substring(0, indexOf) : cmd[1];
+
+        //client version
         final String httpVersion = cmd[2];
+        ClientVersion clientVersion = ClientVersion.fromSpecName(httpVersion);
 
         // parse headers
-        boolean foundSplit = false;
+        Map<String, String> parsedHeaders = parseHeaders(reader);
+
+        return Optional.of(
+                new ParsedRequest(
+                        clientMethod,
+                        uri,
+                        parsedHeaders,
+                        clientVersion));
+    }
+
+    private boolean isInvalidLine(String line) {
+        return line == null ||
+                line.length() == 0 ||
+                Character.isWhitespace(line.charAt(0));
+    }
+
+    private Map<String, String> parseHeaders(BufferedReader reader) throws IOException {
         Map<String, String> parsedHeaders = new HashMap<>();
+        boolean foundSplit = false;
         while (!foundSplit) {
             String headerLine = reader.readLine();
             if (isInvalidLine(headerLine) || headerLine.equals("\n")) {
@@ -52,24 +82,6 @@ public class RequestParserImpl implements RequestParser {
                 }
             }
         }
-        Method clientMethod;
-        try {
-            clientMethod = Method.valueOf(method);
-        } catch (IllegalArgumentException e) {
-            Log.WARN("Cannot parse HTTP method: %s", e.getMessage());
-            return Optional.empty();
-        }
-        return Optional.of(
-                new ParsedRequest(
-                        clientMethod,
-                        uri,
-                        parsedHeaders,
-                        ClientVersion.fromSpecName(httpVersion)));
-    }
-
-    private boolean isInvalidLine(String line) {
-        return line == null ||
-                line.length() == 0 ||
-                Character.isWhitespace(line.charAt(0));
+        return parsedHeaders;
     }
 }

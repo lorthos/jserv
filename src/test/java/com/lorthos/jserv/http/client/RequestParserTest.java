@@ -16,6 +16,7 @@ public class RequestParserTest {
     static final String GET_REQ1 = "GET / http/1.1\n" +
             "Host: localhost:8080\n" +
             "User-Agent: curl/7.64.1\n" +
+            "Connection: Close\n" +
             "Accept: */*\n";
 
     static final String HEAD_REQ1 = "HEAD / HTTP/1.0\n" +
@@ -37,6 +38,7 @@ public class RequestParserTest {
         headers.put("accept", "*/*");
         headers.put("user-agent", "curl/7.64.1");
         headers.put("host", "localhost:8080");
+        headers.put("connection", "close");
 
         assertEquals(headers, request.getHeaders());
     }

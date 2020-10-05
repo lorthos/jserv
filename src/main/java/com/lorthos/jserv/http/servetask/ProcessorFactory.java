@@ -1,6 +1,6 @@
 package com.lorthos.jserv.http.servetask;
 
-import com.lorthos.jserv.fs.FileSystemPackageFactory;
+import com.lorthos.jserv.fs.servetask.ContentServeTaskFactory;
 import com.lorthos.jserv.tcp.ConnectionManager;
 import com.lorthos.jserv.tcp.SocketAttachment;
 import com.lorthos.jserv.util.Log;
@@ -16,7 +16,7 @@ public class ProcessorFactory {
     public Runnable newProcessor(SocketAttachment attachment) {
         return new QueueProcessor(
                 connectionManager,
-                FileSystemPackageFactory.getInstance().buildContentServeTask(),
+                ContentServeTaskFactory.getInstance().buildContentServeTask(),
                 attachment
         );
     }
